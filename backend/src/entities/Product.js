@@ -4,7 +4,7 @@ import { StockMovement } from "./StockMovement.js";
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn()
-  id;
+  id; // Trocar por id com timeStamp
 
   @Column()
   reference;

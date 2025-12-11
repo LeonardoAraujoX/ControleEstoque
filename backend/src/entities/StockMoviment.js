@@ -5,7 +5,7 @@ import { User } from "./User.js";
 @Entity()
 export class StockMovement {
   @PrimaryGeneratedColumn()
-  id;
+  id; // Trocar por id com timeStamp
 
   @Column()
   type; // "entrada" ou "saida"
