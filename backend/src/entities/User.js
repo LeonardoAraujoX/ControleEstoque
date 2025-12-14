@@ -1,23 +1,35 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { StockMovement } from "./StockMovement.js";
+import { EntitySchema } from "typeorm";
 
-@Entity()
-export class User {
-  @PrimaryGeneratedColumn()
-  id; // Trocar por id com timeStamp
+export const User = new EntitySchema({
+  name: "User",
+  tableName: "users",
+  columns: {
+    id: {
+      type: Number,
+      primary: true,
+      generated: true,
+    },
+    name: {
+      type: String,
+    },
+    email: {
+      type: String,
+      unique: true,
+    },
+    password: {
+      type: String,
+    },
+    createdAt: {
+      type: "timestamp",
+      default: () => "CURRENT_TIMESTAMP",
+    }
+  },
+  relations: {
+    movements: {
+      type: "one-to-many",
+      target: "StockMovement",
+      inverseSide: "user",
+    }
+  }
+});
 
-  @Column()
-  name;
-
-  @Column({ unique: true })
-  email;
-
-  @Column()
-  password;
-
-  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-  createdAt;
-
-  @OneToMany(() => StockMovement, (movement) => movement.user)
-  movements;
-}

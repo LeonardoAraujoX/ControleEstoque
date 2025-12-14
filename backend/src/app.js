@@ -1,11 +1,11 @@
 import express from "express";
 import cors from "cors";
 import "reflect-metadata";
-import { AppDataSource } from "./config/data-source.js";
+import  AppDataSource  from "./config/data-source.js";
 
-import { userRouter } from "./routes/User.routes.js";
-import { productRouter } from "./routes/Product.routes.js";
-import { movementRouter } from "./routes/Movement.routes.js";
+import  userRouter  from "./routes/User.routes.js";
+import  productRouter  from "./routes/Product.routes.js";
+import  movementRouter  from "./routes/Movement.routes.js";
 
 
 const app = express();
