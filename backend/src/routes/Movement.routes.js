@@ -5,12 +5,12 @@ const router = express.Router();
 const stockMovementController = new StockMovementController();
 
 router
-  .route("/")
+  .route("/movements")
   .get((req, res) => stockMovementController.getAllMovements(req, res))
   .post((req, res) => stockMovementController.createMovement(req, res));
 
 router
-  .route("/:id")
+  .route("movements/:id")
   .get((req, res) => stockMovementController.getMovementById(req, res))
   .put((req, res) => stockMovementController.updateMovement(req, res))
   .delete((req, res) => stockMovementController.deleteMovement(req, res));

@@ -4,12 +4,12 @@ import UserController from "../controllers/User-controller.js";
 const router = express.Router();
 
 router
-  .route("/")
+  .route("/users")
   .get(UserController.getAllUsers) //Listar todos os usuários
   .post(UserController.registerUser); //Registrar novo usuário
 
 router
-  .route("/:id")
+  .route("/users/:id")
   .get(UserController.getUserById) //Obter usuário por ID
   .put(UserController.updateUser) //Atualizar usuário por ID
   .delete(UserController.deleteUser); //Deletar usuário por ID
