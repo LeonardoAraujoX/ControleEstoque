@@ -1,14 +1,19 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import ProductsPage from './pages/ProductsPage'
+import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom'
 import './App.css'
+import ProductsPage from './pages/ProductsPage'
+import LoginPage from './pages/LoginPage'
+import ResetPasswordPage from './pages/ResetPasswordPage'
+
+
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/products" element={<ProductsPage />} />
-        {/* rota padrão */}
-        <Route path="*" element={<h1>Página não encontrada</h1>} />
+        <Route path="/" element={<Navigate to="/loginpage" />} />
+        <Route path="/loginpage" element={<LoginPage />} />
+        <Route path="/productspage" element={<ProductsPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
       </Routes>
     </BrowserRouter>
   )
