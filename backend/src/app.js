@@ -6,6 +6,7 @@ import  AppDataSource  from "./config/data-source.js";
 import  userRouter  from "./routes/User.routes.js";
 import  productRouter  from "./routes/Product.routes.js";
 import  movementRouter  from "./routes/Movement.routes.js";
+import mid from "./service/mid-auth.js";
 
 
 const app = express();
@@ -13,6 +14,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Middleware de autenticação coloquei aqui testar se ta funcionando
+app.use(mid);
 
 app.use( userRouter);
 app.use( productRouter);
