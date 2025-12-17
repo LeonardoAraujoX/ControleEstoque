@@ -1,6 +1,8 @@
 import AppDataSource from "../config/data-source.js";
 import { StockMovement } from "../entities/StockMovement.js";
 import { Product } from "../entities/Product.js";
+import { Location } from "../entities/Location.js";
+
 
 class StockMovementController {
 
@@ -8,7 +10,7 @@ class StockMovementController {
         try {
             const movementRepository = AppDataSource.getRepository(StockMovement);
             const movements = await movementRepository.find({
-                relations: ["product"]
+                relations: ["product","location"]
             });
 
             res.status(200).json({ message: "Movimentações encontradas", movements });
@@ -135,6 +137,66 @@ class StockMovementController {
             return res.status(500).json({ message: "Erro ao deletar movimentação", error });
         }
     }
+      async transferProduct(req, res) {
+    try {
+      const { productId, locationId, quantity, userId } = req.body;
+
+      const productRepository = AppDataSource.getRepository(Product);
+      const movementRepository = AppDataSource.getRepository(StockMovement);
+      const locationRepository = AppDataSource.getRepository(Location);
+
+      // Produto
+      const product = await productRepository.findOne({
+        where: { id: productId },
+        relations: ["location"]
+      });
+
+      if (!product) {
+        return res.status(404).json({ message: "Produto não encontrado" });
+      }
+
+      // Nova prateleira
+      const newLocation = await locationRepository.findOneBy({ id: locationId });
+
+      if (!newLocation) {
+        return res.status(404).json({ message: "Prateleira não encontrada" });
+      }
+
+      if (product.quantity < quantity) {
+        return res.status(400).json({
+          message: "Quantidade insuficiente no estoque"
+        });
+      }
+
+      // 🔄 Atualiza localização do produto
+      product.location = newLocation;
+      await productRepository.save(product);
+
+      // 📝 Registra movimentação
+      const movement = new StockMovement();
+      movement.type = "transferencia";
+      movement.quantity = quantity;
+      movement.product = product;
+      movement.location = newLocation;
+
+      if (userId) {
+        movement.user = { id: userId };
+      }
+
+      await movementRepository.save(movement);
+
+      return res.status(201).json({
+        message: "Transferência realizada com sucesso",
+        movement
+      });
+
+    } catch (error) {
+      return res.status(500).json({
+        message: "Erro ao transferir produto",
+        error: error.message
+      });
+    }
+  }
 }
 
 export default StockMovementController;

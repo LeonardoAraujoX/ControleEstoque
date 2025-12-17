@@ -6,14 +6,17 @@ const stockMovementController = new StockMovementController();
 
 router
   .route("/movements")
-  .get((req, res) => stockMovementController.getAllMovements(req, res))
-  .post((req, res) => stockMovementController.createMovement(req, res));
+  .get(stockMovementController.getAllMovements)
+  .post(stockMovementController.createMovement);
 
 router
-  .route("movements/:id")
-  .get((req, res) => stockMovementController.getMovementById(req, res))
-  .put((req, res) => stockMovementController.updateMovement(req, res))
-  .delete((req, res) => stockMovementController.deleteMovement(req, res));
+  .route("/movements/:id")
+  .get(stockMovementController.getMovementById)
+  .put(stockMovementController.updateMovement)
+  .delete(stockMovementController.deleteMovement);
+
+// 🔁 Transferência de produto entre prateleiras
+router.post("/movements/transfer", stockMovementController.transferProduct);
 
 export default router;
 

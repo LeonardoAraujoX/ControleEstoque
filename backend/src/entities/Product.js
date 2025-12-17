@@ -1,6 +1,5 @@
 import { EntitySchema } from "typeorm";
 
-
 export const Product = new EntitySchema({
   name: "Product",
   tableName: "products",
@@ -38,6 +37,13 @@ export const Product = new EntitySchema({
       type: "one-to-many",
       target: "StockMovement",
       inverseSide: "product",
+    },
+    location: {
+      type: "many-to-one",
+      target: "Location",
+      inverseSide: "products",
+      joinColumn: true,
+      onDelete: "SET NULL",
     }
   }
 });

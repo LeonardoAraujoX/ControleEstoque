@@ -32,7 +32,13 @@ export const StockMovement = new EntitySchema({
       target: "User",
       inverseSide: "movements",
       onDelete: "SET NULL",
+    },
+    location: {
+      type: "many-to-one",
+      target: "Location",
+      inverseSide: "movements",
+      joinColumn: true,
+      onDelete: "SET NULL",
     }
   }
 });
-
